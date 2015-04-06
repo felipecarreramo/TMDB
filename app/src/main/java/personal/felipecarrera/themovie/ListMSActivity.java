@@ -4,6 +4,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import personal.felipecarrera.themovie.models.DAOTMDB;
+
 
 
 public class ListMSActivity extends ActionBarActivity {
@@ -12,6 +14,8 @@ public class ListMSActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_ms);
+        DAOTMDB.INSTANCE.listSeries();
+
     }
 
 
