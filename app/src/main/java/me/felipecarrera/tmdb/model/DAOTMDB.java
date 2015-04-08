@@ -36,7 +36,7 @@ public enum DAOTMDB implements getResponseDelegate
         if (dHelper == null) {
             dHelper = (DatabaseHelper)OpenHelperManager.getHelper(this.context, DatabaseHelper.class);
         }
-        return dbHelper;
+        return dHelper;
     }
 
     public void listMostPopularSeries()
