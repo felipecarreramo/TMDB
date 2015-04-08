@@ -5,15 +5,19 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import me.felipecarrera.tmdb.model.DAOTMDB;
+import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
 
-public class ListMSActivity extends ActionBarActivity
+import me.felipecarrera.tmdb.model.DAOTMDB;
+import me.felipecarrera.tmdb.model.DatabaseHelper;
+
+public class ListMSActivity extends OrmLiteBaseActivity<DatabaseHelper>
 {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_ms);
+        DAOTMDB.INSTANCE.setContext(this);
         DAOTMDB.INSTANCE.listMostPopularSeries();
     }
 
