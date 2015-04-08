@@ -3,30 +3,31 @@ package me.felipecarrera.tmdb.tools;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 
-public enum RESTClient
+public enum RESTClient implements getResponseDelegate
 {
-    INSTANCE;
 
-    private DefaultHttpClient httpClient;
+    INSTANCE {
+        @Override
+        public void onGetResponse(String module, JSONObject res) {
+           delegate.onGetResponse(module, res);
+        }
+    };
 
-    private RESTClient()
+    public getResponseDelegate delegate;
+
+    public void GETRequest(String module, String url)
     {
-        this.httpClient = new DefaultHttpClient();
-    }
-    public void GETRequest(String url)
-    {
-        new GetAsyncTask(url).execute();
+        GetAsyncTask getTask =  new GetAsyncTask(module, url);
+        getTask.delegate = this;
+        getTask.execute();
     }
 
 
@@ -36,47 +37,44 @@ public enum RESTClient
     }
 
 
-    public class GetAsyncTask extends AsyncTask<String, Void, ArrayList>
+    public class GetAsyncTask extends AsyncTask<String, Void, JSONObject>
     {
 
         private String url;
+        private String module;
+        public getResponseDelegate delegate = null;
+        private  DefaultHttpClient httpClient;
 
-        public GetAsyncTask(String url)
+        public GetAsyncTask(String module, String url)
         {
             this.url = url;
+            this.module = module;
+            this.httpClient = new DefaultHttpClient();
         }
 
-        protected ArrayList doInBackground(String ... params)
+        protected JSONObject doInBackground(String ... params)
         {
-            JSONArray o = getRequest(this.url);
-            Log.i("response object", o.toString());
-            return null;
+            return getRequest(this.httpClient, this.url);
         }
 
-        protected void onPostExecute(ArrayList result)
+        protected void onPostExecute(JSONObject result)
         {
-
+            delegate.onGetResponse(this.module, result);
         }
     }
 
 
-    private JSONArray getRequest(String url)
+    private static JSONObject getRequest(HttpClient client, String url)
     {
         // Prepare a request object
-        HttpGet httpget = new HttpGet(url);
-        try {
 
-            return JSONParser.INSTANCE.parseToJSON(this.httpClient.execute(httpget));
+        try {
+            HttpGet httpget = new HttpGet(url);
+            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+            String response = client.execute(httpget, responseHandler);
+            return new JSONObject(response.toString());
 
         } catch (Exception e) {return null;}
     }
-
-    private Object post(String url)
-    {
-        // Prepare a request object
-        HttpPost httppost = new HttpPost(url);
-        try {
-            return this.httpClient.execute(httppost);
-        } catch (Exception e) { return null; }
-    }
 }
+

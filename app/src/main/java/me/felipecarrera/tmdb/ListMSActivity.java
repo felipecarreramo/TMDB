@@ -2,13 +2,13 @@ package me.felipecarrera.tmdb;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import me.felipecarrera.tmdb.model.DAOTMDB;
 
-public class ListMSActivity extends ActionBarActivity {
+public class ListMSActivity extends ActionBarActivity
+{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,4 +39,6 @@ public class ListMSActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }
