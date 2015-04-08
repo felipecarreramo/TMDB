@@ -1,5 +1,6 @@
-package personal.felipecarrera.themovie.models;
-import personal.felipecarrera.themovie.models.RESTClient;
+package me.felipecarrera.tmdb.model;
+
+import me.felipecarrera.tmdb.tools.RESTClient;
 
 public enum DAOTMDB
 {

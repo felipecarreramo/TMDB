@@ -1,10 +1,17 @@
-package personal.felipecarrera.themovie.models;
+package me.felipecarrera.tmdb.tools;
 
 import android.os.AsyncTask;
 import android.util.Log;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public enum RESTClient
@@ -41,7 +48,8 @@ public enum RESTClient
 
         protected ArrayList doInBackground(String ... params)
         {
-            Log.i("response", ""+ (this.url));
+            JSONArray o = getRequest(this.url);
+            Log.i("response object", o.toString());
             return null;
         }
 
@@ -52,12 +60,14 @@ public enum RESTClient
     }
 
 
-    private Object getRequest(String url)
+    private JSONArray getRequest(String url)
     {
         // Prepare a request object
         HttpGet httpget = new HttpGet(url);
         try {
-            return this.httpClient.execute(httpget);
+
+            return JSONParser.INSTANCE.parseToJSON(this.httpClient.execute(httpget));
+
         } catch (Exception e) {return null;}
     }
 

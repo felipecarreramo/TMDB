@@ -1,4 +1,4 @@
-package personal.felipecarrera.themovie.models;
+package me.felipecarrera.tmdb.tools;
 
 import java.util.ArrayList;
 

@@ -1,6 +1,6 @@
-package personal.felipecarrera.themovie.models;
+package me.felipecarrera.tmdb.model;
 
-public class Serie
+public class TVSerie
 {
     public int id;
     public String name;
