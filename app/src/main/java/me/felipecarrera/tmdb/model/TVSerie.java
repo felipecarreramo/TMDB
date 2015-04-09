@@ -11,10 +11,18 @@ public class TVSerie
 
     @DatabaseField
     private String name;
+
     @DatabaseField
     private String poster;
+
     @DatabaseField
     private String cover;
+
+    @DatabaseField
+    private String overview;
+
+    @DatabaseField
+    private int numberSeasons;
 
 
 
@@ -23,12 +31,14 @@ public class TVSerie
 
     }
 
-    public TVSerie(int id, String name, String poster, String cover)
+    public TVSerie(int id, String name, String poster, String cover, String overview, int numberSeasons)
     {
         this.id = id;
         this.name = name;
         this.poster = poster;
         this.cover = cover;
+        this.overview = overview;
+        this.numberSeasons = numberSeasons;
     }
 
     public void setId(int id) {
@@ -61,5 +71,21 @@ public class TVSerie
 
     public String getCover() {
         return cover;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setNumberSeasons(int numberSeasons) {
+        this.numberSeasons = numberSeasons;
+    }
+
+    public int getNumberSeasons() {
+        return numberSeasons;
     }
 }

@@ -72,6 +72,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper
         return tvRuntimeDAO;
     }
 
+    public void dropTable(Class cls) throws SQLException {
+        TableUtils.dropTable(connectionSource, cls, true);
+    }
+
 
     @Override
     public void close() {

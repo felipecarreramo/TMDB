@@ -8,7 +8,10 @@ import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.sql.SQLException;
 
 
 public enum RESTClient implements getResponseDelegate
@@ -16,7 +19,7 @@ public enum RESTClient implements getResponseDelegate
 
     INSTANCE {
         @Override
-        public void onGetResponse(String module, JSONObject res) {
+        public void onGetResponse(String module, JSONObject res) throws JSONException, SQLException {
            delegate.onGetResponse(module, res);
         }
     };
@@ -25,6 +28,7 @@ public enum RESTClient implements getResponseDelegate
 
     public void GETRequest(String module, String url)
     {
+        Log.i("url", url);
         GetAsyncTask getTask =  new GetAsyncTask(module, url);
         getTask.delegate = this;
         getTask.execute();
@@ -59,15 +63,19 @@ public enum RESTClient implements getResponseDelegate
 
         protected void onPostExecute(JSONObject result)
         {
-            delegate.onGetResponse(this.module, result);
+            try {
+                delegate.onGetResponse(this.module, result);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
 
     private static JSONObject getRequest(HttpClient client, String url)
     {
-        // Prepare a request object
-
         try {
             HttpGet httpget = new HttpGet(url);
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
