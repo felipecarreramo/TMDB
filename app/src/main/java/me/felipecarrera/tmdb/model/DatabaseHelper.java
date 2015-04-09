@@ -20,7 +20,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper
 {
 
     private static final String DATABASE_NAME =  "tmdb.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
 
     private Dao<TVSerie, Integer> tvDAO;
     private RuntimeExceptionDao<TVSerie, Integer> tvRuntimeDAO = null;

@@ -56,8 +56,13 @@ public enum DAOTMDB implements getResponseDelegate
 
             }else if(module.equals("fetchMoreInfoOfSerie"))
             {
+                Log.i("aquiii","si");
 
-                Log.i("detail", res.toString());
+                TVSerie serieToUpdate  = DAOTMDB.INSTANCE.findSerieById(res.getInt("id"));
+                serieToUpdate.setNumberSeasons(res.getInt("number_of_seasons"));
+                serieToUpdate.setOverview(res.getString("overview"));
+                Log.i("serie", res.getString("overview"));
+                DAOTMDB.INSTANCE.daoTV.update(serieToUpdate);
             }
             delegate.onAsyncResponse(module);
         }

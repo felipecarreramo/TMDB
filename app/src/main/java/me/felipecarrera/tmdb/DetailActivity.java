@@ -1,11 +1,14 @@
 package me.felipecarrera.tmdb;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,6 +26,7 @@ public class DetailActivity extends ActionBarActivity implements DAOAsyncRespons
     private TextView titleDetail;
     private TextView seasonsDetail;
     private TextView overviewText;
+    private Button backButton;
     private int selectedId;
 
 
@@ -41,10 +45,17 @@ public class DetailActivity extends ActionBarActivity implements DAOAsyncRespons
             seasonsDetail = (TextView) findViewById(R.id.seasonsText);
             overviewText = (TextView) findViewById(R.id.overviewText);
             DAOTMDB.INSTANCE.delegate = this;
-            DAOTMDB.INSTANCE.fetchMoreInfoOfSerie(id);
-
-
+            DAOTMDB.INSTANCE.fetchMoreInfoOfSerie(selectedId);
         }
+        backButton = (Button) findViewById(R.id.buttonBack);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(DetailActivity.this, ListMSActivity.class);
+                startActivity(i);
+            }
+        });
+
     }
 
     @Override
@@ -53,6 +64,7 @@ public class DetailActivity extends ActionBarActivity implements DAOAsyncRespons
         if (module.equals("fetchMoreInfoOfSerie"))
         {
             TVSerie selectedSerie = DAOTMDB.INSTANCE.findSerieById(selectedId);
+            Log.i("serie selected", selectedSerie.toString());
             Picasso.with(this).load(selectedSerie.getPoster()).into(posterDetail);
             titleDetail.setText(selectedSerie.getName());
             seasonsDetail.setText(selectedSerie.getNumberSeasons()+" temporadas");
